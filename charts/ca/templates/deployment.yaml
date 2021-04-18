@@ -53,30 +53,6 @@ spec:
       securityContext:
 {{ toYaml .Values.securityContext | indent 8 }}
 {{- if .Values.persistence.enabled }}
-      initContainers:
-      - command:
-        - sh
-        - -c
-        - chown -R 1000:1000 /ca
-        image: busybox
-        imagePullPolicy: IfNotPresent
-        name: volume-permissions
-        resources: {}
-        securityContext:
-          runAsUser: 0
-          allowPrivilegeEscalation: false
-          capabilities: {}
-          privileged: false
-          readOnlyRootFilesystem: false
-          runAsNonRoot: false
-        stdin: true
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        tty: true
-        volumeMounts:
-        - mountPath: /ca
-          name: nifi-ca
-          subPath: ca
       volumes:
       - name: nifi-ca
         persistentVolumeClaim:
